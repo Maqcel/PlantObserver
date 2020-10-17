@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import 'screens/homePage.dart';
+import 'screens/plantDataScreen.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
@@ -38,6 +39,10 @@ class MyApp extends StatelessWidget {
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
       home: HomePage(),
+      routes: {
+        HomePage.routeName: (context) => HomePage(),
+        PlantDataScreen.routeName: (context) => PlantDataScreen(),
+      },
     );
   }
 }

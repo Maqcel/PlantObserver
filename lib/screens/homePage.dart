@@ -7,6 +7,8 @@ import 'package:roslinki_politechnika/models/customDrawer.dart';
 import 'package:roslinki_politechnika/models/plantsListView.dart';
 
 class HomePage extends StatefulWidget {
+  static const String routeName = '/homePage';
+
   @override
   _HomePageState createState() => _HomePageState();
 }

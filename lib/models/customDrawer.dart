@@ -52,6 +52,7 @@ class CustomDrawer extends StatelessWidget {
                   ),
                   blurRadius: 10.0,
                   text: 'Profile',
+                  routeName: null,
                 ),
                 ListTileBuilder(
                   icon: Icon(
@@ -61,6 +62,7 @@ class CustomDrawer extends StatelessWidget {
                   ),
                   blurRadius: 10.0,
                   text: 'Settings',
+                  routeName: null,
                 ),
                 ListTileBuilder(
                   icon: Icon(
@@ -70,6 +72,7 @@ class CustomDrawer extends StatelessWidget {
                   ),
                   blurRadius: 10.0,
                   text: 'Help',
+                  routeName: null,
                 ),
                 Spacer(),
                 ListTileBuilder(
@@ -80,6 +83,7 @@ class CustomDrawer extends StatelessWidget {
                   ),
                   blurRadius: 10.0,
                   text: 'Logout',
+                  routeName: null,
                 ),
                 SizedBox(
                   height: 20.h,

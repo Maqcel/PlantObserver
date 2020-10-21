@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:roslinki_politechnika/screens/plantDataScreen.dart';
 
 class ListTileBuilder extends StatefulWidget {
   final double blurRadius;

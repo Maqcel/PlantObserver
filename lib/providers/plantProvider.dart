@@ -7,7 +7,7 @@ import 'package:http/http.dart' as http;
 import 'package:roslinki_politechnika/models/apiKey.dart';
 
 class Plant with ChangeNotifier {
-  //! final String id; add it after adding all of the entries
+  final String id;
   final String description;
   final bool storagePlace; //* true outside / false indoors
   final double hydrophilus;
@@ -19,7 +19,7 @@ class Plant with ChangeNotifier {
   final String name;
 
   Plant({
-    //! @required this.id,
+    @required this.id,
     @required this.description,
     @required this.storagePlace,
     @required this.hydrophilus,
@@ -31,7 +31,7 @@ class Plant with ChangeNotifier {
     @required this.name,
   });
 
-  Future<void> setPlants(Plant plant) async {
+  Future<void> addPlant(Plant plant) async {
     const String url = ApiKey.dataBaseUrl + "plants.json";
     try {
       final response = await http

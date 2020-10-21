@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:provider/provider.dart';
 
+import 'providers/plantsListProvider.dart';
 import 'screens/homePage.dart';
 import 'screens/plantDataScreen.dart';
 
@@ -17,32 +19,37 @@ void main() {
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      title: 'PlantObserver',
-      theme: ThemeData(
-        primaryColor: Colors.white,
-        accentColor: Color.fromRGBO(48, 160, 95, 1.0),
-        textTheme: TextTheme(
-          bodyText2: TextStyle(
-            fontSize: 65.h,
-            color: Colors.black,
-            fontFamily: 'RobotoCondensed',
+    return MultiProvider(
+      providers: [
+        ChangeNotifierProvider(create: (context) => PlantsManagement()),
+      ],
+      child: MaterialApp(
+        debugShowCheckedModeBanner: false,
+        title: 'PlantObserver',
+        theme: ThemeData(
+          primaryColor: Colors.white,
+          accentColor: Color.fromRGBO(48, 160, 95, 1.0),
+          textTheme: TextTheme(
+            bodyText2: TextStyle(
+              fontSize: 65.h,
+              color: Colors.black,
+              fontFamily: 'RobotoCondensed',
+            ),
+            headline6: TextStyle(
+              fontSize: 60.h,
+              fontFamily: 'RobotoCondensed',
+              color: Colors.black,
+              fontWeight: FontWeight.bold,
+            ),
           ),
-          headline6: TextStyle(
-            fontSize: 60.h,
-            fontFamily: 'RobotoCondensed',
-            color: Colors.black,
-            fontWeight: FontWeight.bold,
-          ),
+          visualDensity: VisualDensity.adaptivePlatformDensity,
         ),
-        visualDensity: VisualDensity.adaptivePlatformDensity,
+        home: HomePage(),
+        routes: {
+          HomePage.routeName: (context) => HomePage(),
+          PlantDataScreen.routeName: (context) => PlantDataScreen(),
+        },
       ),
-      home: HomePage(),
-      routes: {
-        HomePage.routeName: (context) => HomePage(),
-        PlantDataScreen.routeName: (context) => PlantDataScreen(),
-      },
     );
   }
 }

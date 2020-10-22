@@ -44,6 +44,7 @@ class MyApp extends StatelessWidget {
           ),
           visualDensity: VisualDensity.adaptivePlatformDensity,
         ),
+        initialRoute: PlantDataScreen.routeName, //! speed up testing
         home: HomePage(),
         routes: {
           HomePage.routeName: (context) => HomePage(),

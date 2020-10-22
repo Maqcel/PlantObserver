@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:provider/provider.dart';
 import 'package:roslinki_politechnika/models/potDecoration.dart';
+import 'package:roslinki_politechnika/providers/potDecorationProvider.dart';
 
 class PlantDataScreen extends StatefulWidget {
   static const String routeName = '/plantDataScreen';
@@ -76,7 +78,16 @@ class _PlantDataScreenState extends State<PlantDataScreen> {
             Positioned(
               top: 140.h,
               left: 40.h,
-              child: PotDecoration(),
+              child: PotDecoration(
+                'Humidity',
+              ),
+            ),
+            Positioned(
+              top: 140.h,
+              left: 200.h,
+              child: PotDecoration(
+                'Fertilizer',
+              ),
             ),
           ],
         ),

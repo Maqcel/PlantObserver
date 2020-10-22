@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
+import 'package:roslinki_politechnika/providers/potDecorationProvider.dart';
 
 import 'providers/plantsListProvider.dart';
 import 'screens/homePage.dart';
@@ -22,6 +23,7 @@ class MyApp extends StatelessWidget {
     return MultiProvider(
       providers: [
         ChangeNotifierProvider(create: (context) => PlantsManagement()),
+        ChangeNotifierProvider(create: (context) => PotDecorationProvider()),
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,

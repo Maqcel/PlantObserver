@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
+import 'package:roslinki_politechnika/screens/plantDataScreen.dart';
 import 'package:transparent_image/transparent_image.dart';
 
 import 'package:roslinki_politechnika/providers/plantsListProvider.dart';
@@ -109,7 +110,16 @@ class _PlantListTileState extends State<PlantListTile> {
                   ),
                 ),
               ),
-              onTap: () {},
+              onTap: () {
+                Navigator.of(context).push(
+                  MaterialPageRoute(
+                    builder: (context) => PlantDataScreen(
+                        Provider.of<PlantsManagement>(context, listen: false)
+                            .plants[index]
+                            .id),
+                  ),
+                );
+              },
             ),
           );
         },

@@ -46,11 +46,11 @@ class MyApp extends StatelessWidget {
           ),
           visualDensity: VisualDensity.adaptivePlatformDensity,
         ),
-        initialRoute: PlantDataScreen.routeName, //! speed up testing
+        // initialRoute: PlantDataScreen.routeName, //! speed up testing
         home: HomePage(),
         routes: {
           HomePage.routeName: (context) => HomePage(),
-          PlantDataScreen.routeName: (context) => PlantDataScreen(),
+          PlantDataScreen.routeName: (context) => PlantDataScreen(null),
         },
       ),
     );

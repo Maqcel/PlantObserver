@@ -18,12 +18,12 @@ class _PotDecorationState extends State<PotDecoration> {
 
   @override
   Widget build(BuildContext context) {
-    Provider.of<PotDecorationProvider>(context, listen: false).dataUpdated();
+    Provider.of<PotDecorationProvider>(context, listen: true).dataUpdated();
     int rows = dots.length;
     return Column(
       children: [
         for (int i = 0; i < rows; i++)
-          _rowBuilder(context, i, dots, 5, widget.choosenData),
+          _rowBuilder(context, i, dots, 3, widget.choosenData),
       ],
     );
   }
@@ -54,7 +54,7 @@ Widget _rowBuilder(BuildContext context, int rowIndex, List<int> dots,
 Color _colorLogicChooser(
     BuildContext context, int placeInRow, int dotsInRow, String choosenData) {
   PotDecorationProvider provider =
-      Provider.of<PotDecorationProvider>(context, listen: false);
+      Provider.of<PotDecorationProvider>(context, listen: true);
   double shouldRepaint = choosenData == 'Humidity'
       ? provider.shouldPaintHumidity
       : provider.shouldPaintFertilizer;

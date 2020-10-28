@@ -3,10 +3,13 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
+import 'package:roslinki_politechnika/animations/routeAnimation.dart';
+import 'package:roslinki_politechnika/models/goBackArrow.dart';
 import 'package:roslinki_politechnika/models/plantsListView.dart';
 import 'package:roslinki_politechnika/models/potDecoration.dart';
 import 'package:roslinki_politechnika/providers/plantsListProvider.dart';
 import 'package:roslinki_politechnika/providers/potDecorationProvider.dart';
+import 'package:roslinki_politechnika/screens/statisticScreen.dart';
 import 'package:transparent_image/transparent_image.dart';
 
 class PlantDataScreen extends StatefulWidget {
@@ -97,9 +100,9 @@ class _PlantDataScreenState extends State<PlantDataScreen> {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        _textSchemeLabels('Water tank', null),
-                        _textSchemeLabels('Light', '✓'),
-                        _textSchemeLabels('Temper.', '✓'),
+                        _textSchemeLabels(' Woda ', null),
+                        _textSchemeLabels('Światło', '✓'),
+                        _textSchemeLabels('Temp.', '✓'),
                       ],
                     ),
                     SizedBox(
@@ -129,7 +132,7 @@ class _PlantDataScreenState extends State<PlantDataScreen> {
                         color: Colors.white,
                       ),
                       Text(
-                        'Statistic',
+                        'Statystyki',
                         style: TextStyle(
                           color: Colors.white,
                           fontSize: 20.h,
@@ -138,7 +141,13 @@ class _PlantDataScreenState extends State<PlantDataScreen> {
                     ],
                   ),
                 ),
-                onTap: () {},
+                onTap: () {
+                  Navigator.of(context).push(
+                    createRoute(
+                      StatisticScreen(),
+                    ),
+                  );
+                },
               ),
             ),
             Positioned(
@@ -158,7 +167,7 @@ class _PlantDataScreenState extends State<PlantDataScreen> {
                         ),
                       ),
                       Text(
-                        'Information',
+                        'Informacje',
                         style: TextStyle(
                           fontSize: 20.h,
                           fontWeight: FontWeight.w600,
@@ -185,34 +194,10 @@ class _PlantDataScreenState extends State<PlantDataScreen> {
             Positioned(
               left: 20.h,
               top: 50.h,
-              child: GestureDetector(
-                onTap: () {
-                  Navigator.of(context).pop();
+              child: goBackArrow(
+                  context,
                   Provider.of<PotDecorationProvider>(context, listen: false)
-                      .dataUpdated();
-                },
-                child: Container(
-                  height: 35.h,
-                  width: 100.h,
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: [
-                      Icon(
-                        Icons.arrow_back_ios,
-                        color: Colors.white,
-                      ),
-                      Text(
-                        'Go back',
-                        style: TextStyle(
-                            fontWeight: FontWeight.w600,
-                            fontSize: 20.h,
-                            color: Colors.white),
-                        textAlign: TextAlign.center,
-                      ),
-                    ],
-                  ),
-                ),
-              ),
+                      .dataUpdated),
             ),
             Positioned(
               right: 0.h,
@@ -285,8 +270,8 @@ class _PlantDataScreenState extends State<PlantDataScreen> {
                         fontWeight: FontWeight.bold,
                         color: Colors.white),
                   ),
-                  _potData('Humidity', context, humidityValue),
-                  _potData('Fertilizer', context, fertilizerValue),
+                  _potData('Wilgotność', context, humidityValue),
+                  _potData('Nawóz', context, fertilizerValue),
                 ],
               ),
             ),

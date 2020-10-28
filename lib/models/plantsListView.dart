@@ -98,8 +98,8 @@ class _PlantListTileState extends State<PlantListTile> {
                           Provider.of<PlantsManagement>(context, listen: false)
                                   .plants[index]
                                   .storagePlace
-                              ? 'Indoor'
-                              : 'Outdoor',
+                              ? 'Domowa'
+                              : 'Ogrodowa',
                           style: TextStyle(
                               fontSize: 15.h,
                               color: Colors.white,

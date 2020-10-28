@@ -77,7 +77,7 @@ class _HomePageState extends State<HomePage> {
                       Padding(
                         padding: EdgeInsets.symmetric(vertical: 20.h),
                         child: Text(
-                          'My plants',
+                          'Moje rośliny',
                           style: TextStyle(
                             fontWeight: FontWeight.bold,
                             fontSize: 45.h,
@@ -96,7 +96,7 @@ class _HomePageState extends State<HomePage> {
                           children: [
                             Expanded(
                               child: Text(
-                                'Explore',
+                                'Baza roślin',
                                 style: TextStyle(
                                   fontWeight: FontWeight.bold,
                                   fontSize: 45.h,
@@ -110,7 +110,7 @@ class _HomePageState extends State<HomePage> {
                                 size: 50.h,
                               ),
                               color: Colors.black,
-                              onPressed: () {},
+                              onPressed: () {}, //TODO add some filter logic
                             ),
                           ],
                         ),
@@ -135,9 +135,9 @@ class _HomePageState extends State<HomePage> {
                   left: 70.h,
                   child: Container(
                     alignment: Alignment.bottomLeft,
-                    width: 160.h,
+                    width: 180.h,
                     child: Text(
-                      'Adjust the watering of plants',
+                      'Dostosuj nawodnienie roślin', //TODO this should change to 'Nie trzeba podejmować akcji' if all plants has water and fertilizer
                       style: TextStyle(
                         fontWeight: FontWeight.w600,
                         fontSize: 20.h,

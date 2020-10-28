@@ -46,7 +46,7 @@ class _ListTileBuilderState extends State<ListTileBuilder> {
           title: Text(
             widget.text,
             style: TextStyle(
-              fontSize: 30.h,
+              fontSize: widget.text.length >= 7 ? 24.h : 30.h,
               fontWeight: FontWeight.w400,
             ),
           ),

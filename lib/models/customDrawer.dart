@@ -51,7 +51,7 @@ class CustomDrawer extends StatelessWidget {
                     size: 40.h,
                   ),
                   blurRadius: 10.0,
-                  text: 'Profile',
+                  text: 'Profil',
                   routeName: null,
                 ),
                 ListTileBuilder(
@@ -61,7 +61,7 @@ class CustomDrawer extends StatelessWidget {
                     size: 40.h,
                   ),
                   blurRadius: 10.0,
-                  text: 'Settings',
+                  text: 'Ustawienia',
                   routeName: null,
                 ),
                 ListTileBuilder(
@@ -71,7 +71,7 @@ class CustomDrawer extends StatelessWidget {
                     size: 40.h,
                   ),
                   blurRadius: 10.0,
-                  text: 'Help',
+                  text: 'Pomoc',
                   routeName: null,
                 ),
                 Spacer(),

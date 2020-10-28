@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
-import 'package:roslinki_politechnika/providers/potDecorationProvider.dart';
 
 import 'providers/plantsListProvider.dart';
+import 'providers/potDecorationProvider.dart';
 import 'screens/homePage.dart';
+import 'screens/informationScreen.dart';
 import 'screens/plantDataScreen.dart';
+import 'screens/statisticScreen.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
@@ -51,6 +53,8 @@ class MyApp extends StatelessWidget {
         routes: {
           HomePage.routeName: (context) => HomePage(),
           PlantDataScreen.routeName: (context) => PlantDataScreen(null),
+          StatisticScreen.routeName: (context) => StatisticScreen(),
+          InformationScreen.routeName: (context) => InformationScreen(),
         },
       ),
     );

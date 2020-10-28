@@ -55,10 +55,10 @@ Color _colorLogicChooser(
     BuildContext context, int placeInRow, int dotsInRow, String choosenData) {
   PotDecorationProvider provider =
       Provider.of<PotDecorationProvider>(context, listen: true);
-  double shouldRepaint = choosenData == 'Humidity'
+  double shouldRepaint = choosenData == 'Wilgotność'
       ? provider.shouldPaintHumidity
       : provider.shouldPaintFertilizer;
-  int leftToBePainted = choosenData == 'Humidity'
+  int leftToBePainted = choosenData == 'Wilgotność'
       ? provider.leftEmptySpaceToPaintHumidity
       : provider.leftEmptySpaceToPaintFertilizer;
   if (placeInRow % 2 == 0) {

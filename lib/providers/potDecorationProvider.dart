@@ -1,10 +1,12 @@
-import 'package:flutter/cupertino.dart';
+import 'dart:math';
+
+import 'package:flutter/material.dart';
 
 class PotDecorationProvider extends ChangeNotifier {
   double shouldPaintHumidity =
-      23; //TODO change it with Provider<PlantUser> value in the state that should be see used in _colorLogicChooser
+      50; //TODO change it with Provider<PlantUser> value in the state that should be see used in _colorLogicChooser
   double shouldPaintFertilizer =
-      99; //TODO change it with Provider<PlantUser> value in the state that should be see used in _colorLogicChooser
+      12; //TODO change it with Provider<PlantUser> value in the state that should be see used in _colorLogicChooser
 
   int leftEmptySpaceToPaintHumidity = 100;
   int leftEmptySpaceToPaintFertilizer = 100;
@@ -26,8 +28,10 @@ class PotDecorationProvider extends ChangeNotifier {
   }
 
   void dataUpdated() {
-    this.shouldPaintHumidity = 23; //! change it also
-    this.shouldPaintFertilizer = 99; //! change it also
+    this.shouldPaintHumidity = 50;
+    //! change it also
+    this.shouldPaintFertilizer = 12;
+    //! change it also
 
     this.leftEmptySpaceToPaintFertilizer = 100;
     this.leftEmptySpaceToPaintHumidity = 100;

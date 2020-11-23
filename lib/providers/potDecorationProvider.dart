@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 
 class PotDecorationProvider extends ChangeNotifier {
   double shouldPaintHumidity =
-      50; //TODO change it with Provider<PlantUser> value in the state that should be see used in _colorLogicChooser
+      75; //TODO change it with Provider<PlantUser> value in the state that should be see used in _colorLogicChooser
   double shouldPaintFertilizer =
       12; //TODO change it with Provider<PlantUser> value in the state that should be see used in _colorLogicChooser
 
@@ -28,7 +28,7 @@ class PotDecorationProvider extends ChangeNotifier {
   }
 
   void dataUpdated() {
-    this.shouldPaintHumidity = 50;
+    this.shouldPaintHumidity = 75;
     //! change it also
     this.shouldPaintFertilizer = 12;
     //! change it also

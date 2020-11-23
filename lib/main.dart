@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
+import 'package:roslinki_politechnika/providers/authProvider.dart';
+import 'package:roslinki_politechnika/screens/authScreen.dart';
 
 import 'providers/plantsListProvider.dart';
 import 'providers/potDecorationProvider.dart';
@@ -26,6 +28,7 @@ class MyApp extends StatelessWidget {
       providers: [
         ChangeNotifierProvider(create: (context) => PlantsManagement()),
         ChangeNotifierProvider(create: (context) => PotDecorationProvider()),
+        ChangeNotifierProvider(create: (context) => Auth()),
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
@@ -49,12 +52,13 @@ class MyApp extends StatelessWidget {
           visualDensity: VisualDensity.adaptivePlatformDensity,
         ),
         // initialRoute: PlantDataScreen.routeName, //! speed up testing
-        home: HomePage(),
+        home: AuthScreen(), //? HomePage(),
         routes: {
           HomePage.routeName: (context) => HomePage(),
           PlantDataScreen.routeName: (context) => PlantDataScreen(null),
           StatisticScreen.routeName: (context) => StatisticScreen(),
           InformationScreen.routeName: (context) => InformationScreen(),
+          AuthScreen.routeName: (context) => AuthScreen(),
         },
       ),
     );

@@ -9,7 +9,10 @@ import 'package:roslinki_politechnika/models/apiKey.dart';
 import 'plantProvider.dart';
 
 class PlantsManagement with ChangeNotifier {
-  List<Plant> _plants = [];
+  final String token;
+  List<Plant> _plants;
+
+  PlantsManagement(this.token, this._plants);
 
   List<Plant> get plants {
     return [..._plants]; //? creates copy of the list
@@ -18,7 +21,7 @@ class PlantsManagement with ChangeNotifier {
   Future<void> getPlants() async {
     try {
       final response = await http
-          .get(ApiKey.dataBaseUrl + 'plants.json')
+          .get(ApiKey.dataBaseUrl + 'plants.json' + '?auth=$token')
           .timeout(Duration(seconds: 5));
       final decodedData = json.decode(response.body) as Map<String, dynamic>;
       if (decodedData == null) {

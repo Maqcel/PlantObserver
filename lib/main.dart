@@ -26,40 +26,46 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiProvider(
       providers: [
-        ChangeNotifierProvider(create: (context) => PlantsManagement()),
-        ChangeNotifierProvider(create: (context) => PotDecorationProvider()),
         ChangeNotifierProvider(create: (context) => Auth()),
-      ],
-      child: MaterialApp(
-        debugShowCheckedModeBanner: false,
-        title: 'PlantObserver',
-        theme: ThemeData(
-          primaryColor: Colors.white,
-          accentColor: Color.fromRGBO(48, 160, 95, 1.0),
-          textTheme: TextTheme(
-            bodyText2: TextStyle(
-              fontSize: 65.h,
-              color: Colors.black,
-              fontFamily: 'RobotoCondensed',
-            ),
-            headline6: TextStyle(
-              fontSize: 60.h,
-              fontFamily: 'RobotoCondensed',
-              color: Colors.black,
-              fontWeight: FontWeight.bold,
-            ),
-          ),
-          visualDensity: VisualDensity.adaptivePlatformDensity,
+        ChangeNotifierProxyProvider<Auth, PlantsManagement>(
+          update: (context, auth, previousPlants) => PlantsManagement(
+              auth.token, previousPlants == null ? [] : previousPlants.plants),
+          create: null,
         ),
-        // initialRoute: PlantDataScreen.routeName, //! speed up testing
-        home: AuthScreen(), //? HomePage(),
-        routes: {
-          HomePage.routeName: (context) => HomePage(),
-          PlantDataScreen.routeName: (context) => PlantDataScreen(null),
-          StatisticScreen.routeName: (context) => StatisticScreen(),
-          InformationScreen.routeName: (context) => InformationScreen(),
-          AuthScreen.routeName: (context) => AuthScreen(),
-        },
+        ChangeNotifierProvider(create: (context) => PotDecorationProvider()),
+      ],
+      child: Consumer<Auth>(
+        builder: (context, auth, _) => MaterialApp(
+          debugShowCheckedModeBanner: false,
+          title: 'PlantObserver',
+          theme: ThemeData(
+            primaryColor: Colors.white,
+            accentColor: Color.fromRGBO(48, 160, 95, 1.0),
+            textTheme: TextTheme(
+              bodyText2: TextStyle(
+                fontSize: 65.h,
+                color: Colors.black,
+                fontFamily: 'RobotoCondensed',
+              ),
+              headline6: TextStyle(
+                fontSize: 60.h,
+                fontFamily: 'RobotoCondensed',
+                color: Colors.black,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+            visualDensity: VisualDensity.adaptivePlatformDensity,
+          ),
+          // initialRoute: PlantDataScreen.routeName, //! speed up testing
+          home: auth.isAuth ? HomePage() : AuthScreen(), //? HomePage(),
+          routes: {
+            HomePage.routeName: (context) => HomePage(),
+            PlantDataScreen.routeName: (context) => PlantDataScreen(null),
+            StatisticScreen.routeName: (context) => StatisticScreen(),
+            InformationScreen.routeName: (context) => InformationScreen(),
+            AuthScreen.routeName: (context) => AuthScreen(),
+          },
+        ),
       ),
     );
   }

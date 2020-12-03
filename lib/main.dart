@@ -3,6 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
 import 'package:roslinki_politechnika/providers/authProvider.dart';
 import 'package:roslinki_politechnika/screens/authScreen.dart';
+import 'package:roslinki_politechnika/screens/tryAutoLoginLoading.dart';
 
 import 'providers/plantsListProvider.dart';
 import 'providers/potDecorationProvider.dart';
@@ -57,7 +58,15 @@ class MyApp extends StatelessWidget {
             visualDensity: VisualDensity.adaptivePlatformDensity,
           ),
           // initialRoute: PlantDataScreen.routeName, //! speed up testing
-          home: auth.isAuth ? HomePage() : AuthScreen(), //? HomePage(),
+          home: auth.isAuth
+              ? HomePage()
+              : FutureBuilder(
+                  future: auth.tryAutoLogin(),
+                  builder: (context, authResult) =>
+                      authResult.connectionState == ConnectionState.waiting
+                          ? TryAutoLogin()
+                          : AuthScreen(),
+                ), //? HomePage(),
           routes: {
             HomePage.routeName: (context) => HomePage(),
             PlantDataScreen.routeName: (context) => PlantDataScreen(null),

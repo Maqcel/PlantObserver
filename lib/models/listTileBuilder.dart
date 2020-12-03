@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:provider/provider.dart';
+import 'package:roslinki_politechnika/providers/authProvider.dart';
 
 class ListTileBuilder extends StatefulWidget {
   final double blurRadius;
@@ -60,18 +62,24 @@ class _ListTileBuilderState extends State<ListTileBuilder> {
                   stateColor = Color.fromRGBO(245, 247, 249, 1.0);
                 }
                 if (widget.routeName != null) {
-                  Navigator.of(context).pushNamed(widget.routeName).then(
-                        (value) => setState(
-                          () {
-                            if (stateColor ==
-                                Color.fromRGBO(245, 247, 249, 1.0)) {
-                              stateColor = Theme.of(context).accentColor;
-                            } else {
-                              stateColor = Color.fromRGBO(245, 247, 249, 1.0);
-                            }
-                          },
-                        ),
-                      );
+                  if (widget.routeName != 'logout') {
+                    Navigator.of(context).pushNamed(widget.routeName).then(
+                          (value) => setState(
+                            () {
+                              if (stateColor ==
+                                  Color.fromRGBO(245, 247, 249, 1.0)) {
+                                stateColor = Theme.of(context).accentColor;
+                              } else {
+                                stateColor = Color.fromRGBO(245, 247, 249, 1.0);
+                              }
+                            },
+                          ),
+                        );
+                  } else {
+                    Navigator.of(context).pop();
+                    Navigator.of(context).pushReplacementNamed('/');
+                    Provider.of<Auth>(context, listen: false).logout();
+                  }
                 }
               },
             );

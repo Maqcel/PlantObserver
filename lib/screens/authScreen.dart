@@ -316,7 +316,7 @@ class _AuthScreenState extends State<AuthScreen> {
                               ),
                             )
                           : Container(),
-                      SizedBox(height: 20.h),
+                      !_isErrorEmail ? SizedBox(height: 20.h) : Container(),
                       Container(
                         width: 300.h,
                         height: 50.h,
@@ -378,7 +378,7 @@ class _AuthScreenState extends State<AuthScreen> {
                               ),
                             )
                           : Container(),
-                      SizedBox(height: 20.h),
+                      !_isErrorPassword ? SizedBox(height: 20.h) : Container(),
                       _isSignup
                           ? Container(
                               width: 300.h,

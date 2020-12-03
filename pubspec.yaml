@@ -29,6 +29,7 @@ dependencies:
   http: ^0.12.2
   material_design_icons_flutter: ^4.0.5755
   provider: ^4.3.2+2
+  shared_preferences: ^0.5.12+4
   transparent_image: ^1.0.0
 
 dev_dependencies:

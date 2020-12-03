@@ -83,7 +83,7 @@ class CustomDrawer extends StatelessWidget {
                   ),
                   blurRadius: 10.0,
                   text: 'Logout',
-                  routeName: null,
+                  routeName: 'logout',
                 ),
                 SizedBox(
                   height: 20.h,

@@ -31,8 +31,8 @@ class Plant with ChangeNotifier {
     @required this.name,
   });
 
-  Future<void> addPlant(Plant plant) async {
-    const String url = ApiKey.dataBaseUrl + "plants.json";
+  Future<void> addPlant(Plant plant, String token) async {
+    final String url = ApiKey.dataBaseUrl + "plants.json" + '?auth=$token';
     try {
       final response = await http
           .post(

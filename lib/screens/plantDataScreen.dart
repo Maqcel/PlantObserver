@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
 import 'package:roslinki_politechnika/animations/routeAnimation.dart';
+import 'package:roslinki_politechnika/models/addPlantButton.dart';
 import 'package:roslinki_politechnika/models/goBackArrow.dart';
 import 'package:roslinki_politechnika/models/plantsListView.dart';
 import 'package:roslinki_politechnika/models/potDecoration.dart';
@@ -25,6 +26,11 @@ class PlantDataScreen extends StatefulWidget {
 class _PlantDataScreenState extends State<PlantDataScreen> {
   @override
   Widget build(BuildContext context) {
+    String shortName = shortNameGetter(
+        Provider.of<PlantsManagement>(context, listen: false)
+            .plants
+            .firstWhere((element) => element.id == widget.plantId)
+            .name);
     double fertilizerValue =
         Provider.of<PotDecorationProvider>(context, listen: true)
             .shouldPaintFertilizer;
@@ -202,23 +208,24 @@ class _PlantDataScreenState extends State<PlantDataScreen> {
             Positioned(
               right: 0.h,
               top: 40.h,
-              child: Container(
-                decoration: BoxDecoration(
-                  color: Color.fromRGBO(107, 190, 118, 1.0),
-                  borderRadius: BorderRadius.only(
-                    topLeft: Radius.circular(25),
-                    bottomLeft: Radius.circular(25),
-                  ),
+              child: ClipRRect(
+                borderRadius: BorderRadius.only(
+                  topLeft: Radius.circular(25),
+                  bottomLeft: Radius.circular(25),
                 ),
-                child: Center(
-                  child: Image.asset(
-                    'assets/images/nut.png',
-                    color: Colors.white,
-                    width: 30.h,
+                child: Container(
+                  decoration: BoxDecoration(
+                    color: Color.fromRGBO(107, 190, 118, 1.0),
                   ),
+                  child: Center(
+                    child: AddPlantButton(
+                      pot: 40,
+                      plus: 20,
+                    ),
+                  ),
+                  width: 80.h,
+                  height: 60.h,
                 ),
-                width: 80.h,
-                height: 60.h,
               ),
             ),
             Positioned(
@@ -260,13 +267,9 @@ class _PlantDataScreenState extends State<PlantDataScreen> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    shortNameGetter(Provider.of<PlantsManagement>(context,
-                            listen: false)
-                        .plants
-                        .firstWhere((element) => element.id == widget.plantId)
-                        .name),
+                    shortName,
                     style: TextStyle(
-                        fontSize: 50.h,
+                        fontSize: shortName.length > 8 ? 30.h : 50.h,
                         fontWeight: FontWeight.bold,
                         color: Colors.white),
                   ),

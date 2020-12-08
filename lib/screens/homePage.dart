@@ -2,10 +2,12 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:roslinki_politechnika/models/addPlantButton.dart';
 import 'package:roslinki_politechnika/models/customAppBar.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:roslinki_politechnika/models/customDrawer.dart';
 import 'package:roslinki_politechnika/models/plantsListView.dart';
+import 'package:roslinki_politechnika/providers/authProvider.dart';
 import 'package:roslinki_politechnika/providers/plantsListProvider.dart';
 
 class HomePage extends StatefulWidget {
@@ -21,7 +23,9 @@ class _HomePageState extends State<HomePage> {
   @override
   void initState() {
     _isLoading = true;
-    Provider.of<PlantsManagement>(context, listen: false).getPlants().then(
+    Provider.of<PlantsManagement>(context, listen: false)
+        .getPlants(Provider.of<Auth>(context, listen: false).userId)
+        .then(
       (value) {
         setState(
           () {
@@ -85,7 +89,9 @@ class _HomePageState extends State<HomePage> {
                           textAlign: TextAlign.start,
                         ),
                       ),
-                      PlantListTile(), //TODO make sure its ok
+                      PlantListTile(
+                        mode: 'User',
+                      ), //TODO make sure its ok
                       SizedBox(
                         height: 40.h,
                       ),
@@ -115,7 +121,9 @@ class _HomePageState extends State<HomePage> {
                           ],
                         ),
                       ),
-                      PlantListTile(), //TODO make sure its ok
+                      PlantListTile(
+                        mode: 'All',
+                      ), //TODO make sure its ok
                       SizedBox(
                         height: 35.h,
                       ),
@@ -158,10 +166,9 @@ class _HomePageState extends State<HomePage> {
                       ),
                     ),
                     child: Center(
-                      child: Image.asset(
-                        'assets/images/nut.png',
-                        color: Colors.white,
-                        width: 30.h,
+                      child: AddPlantButton(
+                        plus: 10,
+                        pot: 20,
                       ),
                     ),
                     width: 60.h,

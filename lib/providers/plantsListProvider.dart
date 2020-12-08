@@ -12,13 +12,19 @@ class PlantsManagement with ChangeNotifier {
   final String token;
   List<Plant> _plants;
 
+  List<Plant> _userPlants;
+
   PlantsManagement(this.token, this._plants);
 
   List<Plant> get plants {
     return [..._plants]; //? creates copy of the list
   }
 
-  Future<void> getPlants() async {
+  List<Plant> get userPlants {
+    return [..._userPlants]; //? creates copy of the list
+  }
+
+  Future<void> getPlants(String userId) async {
     try {
       final response = await http
           .get(ApiKey.dataBaseUrl + 'plants.json' + '?auth=$token')
@@ -47,6 +53,23 @@ class PlantsManagement with ChangeNotifier {
         );
       });
       _plants = temporary;
+
+      final responseUserPlants = await http
+          .get(
+              ApiKey.dataBaseUrl + 'users/$userId/plants.json' + '?auth=$token')
+          .timeout(Duration(seconds: 5));
+
+      final decodedDataUser =
+          json.decode(response.body) as Map<String, dynamic>;
+      if (decodedDataUser == null) {
+        print('Response body is null');
+        throw NullThrownError;
+      }
+      final List<Plant> temporaryUser = [];
+
+      decodedDataUser.forEach((plantId, plant) {});
+      _userPlants = temporaryUser;
+      //print(responseUserPlants.body);
       notifyListeners();
     } on TimeoutException catch (e) {
       print('Timeout Error: $e');

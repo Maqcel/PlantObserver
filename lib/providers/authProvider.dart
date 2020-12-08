@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'dart:async';
+import 'dart:io';
 
 import 'package:flutter/widgets.dart';
 import 'package:http/http.dart' as http;
@@ -15,6 +16,10 @@ class Auth with ChangeNotifier {
 
   bool get isAuth {
     return token != null;
+  }
+
+  String get userId {
+    return _userId;
   }
 
   String get token {
@@ -56,7 +61,6 @@ class Auth with ChangeNotifier {
       );
       _userId = responseBody['localId'];
       _autologout();
-      notifyListeners();
       final deviceMemory = await SharedPreferences.getInstance();
       final userData = json.encode(
         {
@@ -66,7 +70,34 @@ class Auth with ChangeNotifier {
         },
       );
       deviceMemory.setString('userData', userData);
+      if (endpoint == 'signUp') {
+        await dbUserCreation(_userId, email);
+      }
+      notifyListeners();
     } catch (error) {
+      throw error;
+    }
+  }
+
+  Future<void> dbUserCreation(String userId, String email) async {
+    final String url =
+        ApiKey.dataBaseUrl + 'users/$userId/personalData.json' + '?auth=$token';
+    var response;
+    try {
+      response = await http
+          .post(
+            url,
+            body: json.encode(
+              {
+                'email': email,
+                'name': 'empty',
+                'surname': 'empty',
+              },
+            ),
+          )
+          .timeout(Duration(seconds: 10));
+    } catch (error) {
+      print('Error when setting up folder: ' + response.body);
       throw error;
     }
   }

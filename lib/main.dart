@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
 import 'package:roslinki_politechnika/providers/authProvider.dart';
+import 'package:roslinki_politechnika/screens/addPlantScreen.dart';
 import 'package:roslinki_politechnika/screens/authScreen.dart';
 import 'package:roslinki_politechnika/screens/tryAutoLoginLoading.dart';
 
@@ -57,7 +58,7 @@ class MyApp extends StatelessWidget {
             ),
             visualDensity: VisualDensity.adaptivePlatformDensity,
           ),
-          // initialRoute: PlantDataScreen.routeName, //! speed up testing
+          //initialRoute: AddPlantScreen.routeName, //! speed up testing
           home: auth.isAuth
               ? HomePage()
               : FutureBuilder(
@@ -73,6 +74,7 @@ class MyApp extends StatelessWidget {
             StatisticScreen.routeName: (context) => StatisticScreen(),
             InformationScreen.routeName: (context) => InformationScreen(),
             AuthScreen.routeName: (context) => AuthScreen(),
+            AddPlantScreen.routeName: (context) => AddPlantScreen(),
           },
         ),
       ),

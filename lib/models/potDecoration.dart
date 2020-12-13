@@ -6,8 +6,13 @@ import 'dart:math';
 
 class PotDecoration extends StatefulWidget {
   final String choosenData;
-
-  const PotDecoration(this.choosenData);
+  final double humidity;
+  final double fertilizer;
+  const PotDecoration({
+    @required this.choosenData,
+    @required this.humidity,
+    @required this.fertilizer,
+  });
 
   @override
   _PotDecorationState createState() => _PotDecorationState();
@@ -18,19 +23,21 @@ class _PotDecorationState extends State<PotDecoration> {
 
   @override
   Widget build(BuildContext context) {
-    Provider.of<PotDecorationProvider>(context, listen: true).dataUpdated();
+    Provider.of<PotDecorationProvider>(context, listen: true)
+        .dataUpdated(widget.fertilizer, widget.humidity);
     int rows = dots.length;
     return Column(
       children: [
         for (int i = 0; i < rows; i++)
-          _rowBuilder(context, i, dots, 3, widget.choosenData),
+          _rowBuilder(context, i, dots, 3, widget.choosenData,
+              widget.fertilizer, widget.humidity),
       ],
     );
   }
 }
 
 Widget _rowBuilder(BuildContext context, int rowIndex, List<int> dots,
-    double size, String choosenData) {
+    double size, String choosenData, double fertilizer, double humidity) {
   int rowLength = 21; //? needed for 2 columns effect
   return Row(
     children: [
@@ -40,8 +47,8 @@ Widget _rowBuilder(BuildContext context, int rowIndex, List<int> dots,
           child: Container(
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(size.h),
-              color: _colorLogicChooser(
-                  context, i, dots[rowIndex], choosenData), //WHITE
+              color: _colorLogicChooser(context, i, dots[rowIndex], choosenData,
+                  fertilizer, humidity), //WHITE
             ),
             width: size.h,
             height: size.h,
@@ -51,10 +58,11 @@ Widget _rowBuilder(BuildContext context, int rowIndex, List<int> dots,
   );
 }
 
-Color _colorLogicChooser(
-    BuildContext context, int placeInRow, int dotsInRow, String choosenData) {
+Color _colorLogicChooser(BuildContext context, int placeInRow, int dotsInRow,
+    String choosenData, double fertilizer, double humidity) {
   PotDecorationProvider provider =
       Provider.of<PotDecorationProvider>(context, listen: true);
+  provider.providerSetup(fertilizer, humidity);
   double shouldRepaint = choosenData == 'Wilgotność'
       ? provider.shouldPaintHumidity
       : provider.shouldPaintFertilizer;

@@ -1,11 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:provider/provider.dart';
+import 'package:roslinki_politechnika/providers/potDecorationProvider.dart';
 
-Widget goBackArrow(BuildContext context, Function function) {
+Widget goBackArrow(BuildContext context, double fertilizer, double humidity) {
   return GestureDetector(
     onTap: () {
       Navigator.of(context).pop();
-      if (function != null) function();
+      Provider.of<PotDecorationProvider>(context, listen: false)
+          .dataUpdated(fertilizer, humidity);
     },
     child: Container(
       height: 35.h,

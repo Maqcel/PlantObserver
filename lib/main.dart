@@ -31,7 +31,9 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(create: (context) => Auth()),
         ChangeNotifierProxyProvider<Auth, PlantsManagement>(
           update: (context, auth, previousPlants) => PlantsManagement(
-              auth.token, previousPlants == null ? [] : previousPlants.plants),
+              auth.token,
+              previousPlants == null ? [] : previousPlants.plants,
+              previousPlants == null ? [] : previousPlants.userPlants),
           create: null,
         ),
         ChangeNotifierProvider(create: (context) => PotDecorationProvider()),
@@ -70,7 +72,8 @@ class MyApp extends StatelessWidget {
                 ), //? HomePage(),
           routes: {
             HomePage.routeName: (context) => HomePage(),
-            PlantDataScreen.routeName: (context) => PlantDataScreen(null),
+            PlantDataScreen.routeName: (context) =>
+                PlantDataScreen(isUserPlant: null, plantId: null),
             StatisticScreen.routeName: (context) => StatisticScreen(),
             InformationScreen.routeName: (context) => InformationScreen(),
             AuthScreen.routeName: (context) => AuthScreen(),

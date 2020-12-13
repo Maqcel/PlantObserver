@@ -10,20 +10,43 @@ import 'package:roslinki_politechnika/models/plantsListView.dart';
 import 'package:roslinki_politechnika/models/potDecoration.dart';
 import 'package:roslinki_politechnika/providers/plantsListProvider.dart';
 import 'package:roslinki_politechnika/providers/potDecorationProvider.dart';
+import 'package:roslinki_politechnika/screens/informationScreen.dart';
 import 'package:roslinki_politechnika/screens/statisticScreen.dart';
 import 'package:transparent_image/transparent_image.dart';
 
 class PlantDataScreen extends StatefulWidget {
   static const String routeName = '/plantDataScreen';
   final String plantId;
-
-  PlantDataScreen(this.plantId);
+  final bool isUserPlant;
+  PlantDataScreen({
+    @required this.isUserPlant,
+    @required this.plantId,
+  });
 
   @override
   _PlantDataScreenState createState() => _PlantDataScreenState();
 }
 
 class _PlantDataScreenState extends State<PlantDataScreen> {
+  void providerInit(BuildContext context) {
+    Provider.of<PotDecorationProvider>(context, listen: false).providerSetup(
+      Provider.of<PlantsManagement>(context, listen: false)
+          .userPlants
+          .firstWhere((element) => element.id == widget.plantId)
+          .currentFertility,
+      Provider.of<PlantsManagement>(context, listen: false)
+          .userPlants
+          .firstWhere((element) => element.id == widget.plantId)
+          .currentHydrophility,
+    );
+  }
+
+  @override
+  void initState() {
+    if (widget.isUserPlant) providerInit(context);
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     String shortName = shortNameGetter(
@@ -43,6 +66,7 @@ class _PlantDataScreenState extends State<PlantDataScreen> {
         height: double.infinity,
         width: double.infinity,
         child: Stack(
+          alignment: Alignment.center,
           children: [
             Positioned(
               //! data in this container should be gathered from sensor
@@ -54,72 +78,81 @@ class _PlantDataScreenState extends State<PlantDataScreen> {
                   color: Colors.white,
                   borderRadius: BorderRadius.only(
                     topRight: Radius.circular(70.h),
+                    topLeft: widget.isUserPlant
+                        ? Radius.circular(0)
+                        : Radius.circular(70.h),
                     //? added image in this region topLeft: Radius.circular(70.h),
                   ),
                 ),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Container(
-                          height: 50.h,
-                          width: 10.h,
-                          child: Transform.rotate(
-                            angle: pi,
-                            child: Stack(
-                              children: [
-                                Container(
-                                  decoration: BoxDecoration(
-                                    border: Border.all(
-                                      color: Colors.grey,
-                                      width: 1.0.h,
-                                    ),
-                                    color: Color.fromRGBO(220, 220, 220, 1.0),
-                                    borderRadius: BorderRadius.circular(10.h),
+                child: widget.isUserPlant == true
+                    ? Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Container(
+                                height: 50.h,
+                                width: 10.h,
+                                child: Transform.rotate(
+                                  angle: pi,
+                                  child: Stack(
+                                    children: [
+                                      Container(
+                                        decoration: BoxDecoration(
+                                          border: Border.all(
+                                            color: Colors.grey,
+                                            width: 1.0.h,
+                                          ),
+                                          color: Color.fromRGBO(
+                                              220, 220, 220, 1.0),
+                                          borderRadius:
+                                              BorderRadius.circular(10.h),
+                                        ),
+                                      ),
+                                      FractionallySizedBox(
+                                        heightFactor:
+                                            0.4, //TODO make it gether the information about water left in tank
+                                        child: Container(
+                                          decoration: BoxDecoration(
+                                            color: Colors.redAccent,
+                                            borderRadius:
+                                                BorderRadius.circular(10.h),
+                                          ),
+                                        ),
+                                      ),
+                                    ],
                                   ),
                                 ),
-                                FractionallySizedBox(
-                                  heightFactor:
-                                      0.4, //TODO make it gether the information about water left in tank
-                                  child: Container(
-                                    decoration: BoxDecoration(
-                                      color: Colors.redAccent,
-                                      borderRadius: BorderRadius.circular(10.h),
-                                    ),
-                                  ),
-                                ),
-                              ],
-                            ),
+                              ),
+                              _textSchemePercent(
+                                  10, true), //TODO change it later for value
+                              _textSchemePercent(78, true),
+                              _textSchemePercent(24, false),
+                            ],
                           ),
-                        ),
-                        _textSchemePercent(
-                            10, true), //TODO change it later for value
-                        _textSchemePercent(78, true),
-                        _textSchemePercent(24, false),
-                      ],
-                    ),
-                    SizedBox(
-                      height: 15.h,
-                    ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        _textSchemeLabels(' Woda ', null),
-                        _textSchemeLabels('Światło', '✓'),
-                        _textSchemeLabels('Temp.', '✓'),
-                      ],
-                    ),
-                    SizedBox(
-                      height: 20.h,
-                    ),
-                  ],
-                ),
+                          SizedBox(
+                            height: 15.h,
+                          ),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              _textSchemeLabels(' Woda ', null),
+                              _textSchemeLabels('Światło', '✓'),
+                              _textSchemeLabels('Temp.', '✓'),
+                            ],
+                          ),
+                          SizedBox(
+                            height: 20.h,
+                          ),
+                        ],
+                      )
+                    : Container(),
               ),
             ),
             Positioned(
               bottom: 0,
+              left: 0,
               child: GestureDetector(
                 child: Container(
                   height: 90.h,
@@ -194,90 +227,121 @@ class _PlantDataScreenState extends State<PlantDataScreen> {
                     ],
                   ),
                 ),
-                onTap: () {},
+                onTap: () {
+                  Navigator.of(context).push(
+                    createRoute(
+                      InformationScreen(),
+                    ),
+                  );
+                },
               ),
             ),
             Positioned(
               left: 20.h,
               top: 50.h,
               child: goBackArrow(
-                  context,
-                  Provider.of<PotDecorationProvider>(context, listen: false)
-                      .dataUpdated),
-            ),
-            Positioned(
-              right: 0.h,
-              top: 40.h,
-              child: ClipRRect(
-                borderRadius: BorderRadius.only(
-                  topLeft: Radius.circular(25),
-                  bottomLeft: Radius.circular(25),
-                ),
-                child: Container(
-                  decoration: BoxDecoration(
-                    color: Color.fromRGBO(107, 190, 118, 1.0),
-                  ),
-                  child: Center(
-                    child: AddPlantButton(
-                      pot: 40,
-                      plus: 20,
-                    ),
-                  ),
-                  width: 80.h,
-                  height: 60.h,
-                ),
+                context,
+                Provider.of<PlantsManagement>(context, listen: false)
+                    .userPlants
+                    .firstWhere((element) => element.id == widget.plantId)
+                    .currentFertility,
+                Provider.of<PlantsManagement>(context, listen: false)
+                    .userPlants
+                    .firstWhere((element) => element.id == widget.plantId)
+                    .currentHydrophility,
               ),
             ),
-            Positioned(
-              top: 110.h,
-              left: -160.h,
-              child: ClipOval(
-                child: Stack(
-                  children: [
-                    Container(
-                      height: 450.h,
-                      width: 420.h,
-                      child: CircularProgressIndicator(
-                        backgroundColor: Colors.black,
-                        strokeWidth: 3.h,
+            !widget.isUserPlant
+                ? Positioned(
+                    right: 0.h,
+                    top: 40.h,
+                    child: ClipRRect(
+                      borderRadius: BorderRadius.only(
+                        topLeft: Radius.circular(25),
+                        bottomLeft: Radius.circular(25),
+                      ),
+                      child: Container(
+                        decoration: BoxDecoration(
+                          color: Color.fromRGBO(107, 190, 118, 1.0),
+                        ),
+                        child: Center(
+                          child: AddPlantButton(
+                            pot: 40,
+                            plus: 20,
+                          ),
+                        ),
+                        width: 80.h,
+                        height: 60.h,
                       ),
                     ),
-                    Container(
-                      height: 450.h,
-                      width: 420.h,
-                      child: FadeInImage.memoryNetwork(
-                        placeholder: kTransparentImage,
-                        image: Provider.of<PlantsManagement>(context,
-                                listen: false)
-                            .plants
-                            .firstWhere(
-                                (element) => element.id == widget.plantId)
-                            .urlImage,
-                        fit: BoxFit.cover,
+                  )
+                : Container(),
+            widget.isUserPlant
+                ? Positioned(
+                    top: widget.isUserPlant ? 110.h : 170.h,
+                    left: widget.isUserPlant ? -160.h : 0,
+                    child: ClipOval(
+                      child: Stack(
+                        children: [
+                          Container(
+                            height: 450.h,
+                            width: 420.h,
+                            child: CircularProgressIndicator(
+                              backgroundColor: Colors.black,
+                              strokeWidth: 3.h,
+                            ),
+                          ),
+                          Container(
+                            height: 450.h,
+                            width: 420.h,
+                            child: FadeInImage.memoryNetwork(
+                              placeholder: kTransparentImage,
+                              image: Provider.of<PlantsManagement>(context,
+                                      listen: false)
+                                  .plants
+                                  .firstWhere(
+                                      (element) => element.id == widget.plantId)
+                                  .urlImage,
+                              fit: BoxFit.cover,
+                            ),
+                          ),
+                        ],
                       ),
                     ),
-                  ],
-                ),
-              ),
-            ),
-            Positioned(
-              top: 140.h,
-              right: 20.h,
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    shortName,
-                    style: TextStyle(
-                        fontSize: shortName.length > 8 ? 30.h : 50.h,
-                        fontWeight: FontWeight.bold,
-                        color: Colors.white),
+                  )
+                : _showPlantPhoto(context, widget.plantId),
+            widget.isUserPlant
+                ? Positioned(
+                    top: 140.h,
+                    right: 20.h,
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          shortName,
+                          style: TextStyle(
+                              fontSize: shortName.length > 8 ? 30.h : 50.h,
+                              fontWeight: FontWeight.bold,
+                              color: Colors.white),
+                        ),
+                        _potData('Wilgotność', context, humidityValue,
+                            widget.plantId),
+                        _potData(
+                            'Nawóz', context, fertilizerValue, widget.plantId),
+                      ],
+                    ),
+                  )
+                : Positioned(
+                    top: 80.h,
+                    // left: MediaQuery.of(context).size.width * 0.3,
+                    child: Text(
+                      shortName,
+                      style: TextStyle(
+                          fontSize: shortName.length > 8 ? 30.h : 50.h,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.white),
+                    ),
                   ),
-                  _potData('Wilgotność', context, humidityValue),
-                  _potData('Nawóz', context, fertilizerValue),
-                ],
-              ),
-            ),
           ],
         ),
       ),
@@ -285,7 +349,8 @@ class _PlantDataScreenState extends State<PlantDataScreen> {
   }
 }
 
-Widget _potData(String dataName, BuildContext context, double values) {
+Widget _potData(
+    String dataName, BuildContext context, double values, String plantId) {
   return Padding(
     padding: EdgeInsets.symmetric(vertical: 30.h),
     child: Row(
@@ -329,7 +394,15 @@ Widget _potData(String dataName, BuildContext context, double values) {
           width: 20.h,
         ),
         PotDecoration(
-          dataName,
+          choosenData: dataName,
+          fertilizer: Provider.of<PlantsManagement>(context, listen: false)
+              .userPlants
+              .firstWhere((element) => element.id == plantId)
+              .currentFertility,
+          humidity: Provider.of<PlantsManagement>(context, listen: false)
+              .userPlants
+              .firstWhere((element) => element.id == plantId)
+              .currentHydrophility,
         ),
       ],
     ),
@@ -376,6 +449,38 @@ Widget _textSchemeLabels(String value, String label) {
           style: TextStyle(fontSize: 20.h, fontWeight: FontWeight.bold),
         ),
       ],
+    ),
+  );
+}
+
+Widget _showPlantPhoto(BuildContext context, String plantId) {
+  return Positioned(
+    top: 170.h,
+    child: ClipOval(
+      child: Stack(
+        children: [
+          Container(
+            height: 450.h,
+            width: 420.h,
+            child: CircularProgressIndicator(
+              backgroundColor: Colors.black,
+              strokeWidth: 3.h,
+            ),
+          ),
+          Container(
+            height: 450.h,
+            width: 420.h,
+            child: FadeInImage.memoryNetwork(
+              placeholder: kTransparentImage,
+              image: Provider.of<PlantsManagement>(context, listen: false)
+                  .plants
+                  .firstWhere((element) => element.id == plantId)
+                  .urlImage,
+              fit: BoxFit.cover,
+            ),
+          ),
+        ],
+      ),
     ),
   );
 }

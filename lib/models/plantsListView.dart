@@ -9,7 +9,7 @@ import 'package:transparent_image/transparent_image.dart';
 import 'package:roslinki_politechnika/providers/plantsListProvider.dart';
 
 class PlantListTile extends StatefulWidget {
-  final String mode; //
+  final String mode; //? is this listView off all or only of userPlants
   PlantListTile({
     Key key,
     @required this.mode,
@@ -20,11 +20,25 @@ class PlantListTile extends StatefulWidget {
 }
 
 class _PlantListTileState extends State<PlantListTile> {
-  List<Plant> plants;
+  List<Plant> plants = [];
   @override
   Widget build(BuildContext context) {
     if (widget.mode == 'User') {
-      plants = Provider.of<PlantsManagement>(context, listen: false).userPlants;
+      plants = [];
+      List<String> plantsToAdd = [];
+      Provider.of<PlantsManagement>(context, listen: false)
+          .userPlants
+          .forEach((element) {
+        plantsToAdd.add(element.id);
+      });
+
+      Provider.of<PlantsManagement>(context, listen: false)
+          .plants
+          .forEach((element) {
+        if (plantsToAdd.contains(element.id)) {
+          plants.add(element);
+        }
+      });
     } else
       plants = Provider.of<PlantsManagement>(context, listen: false).plants;
     return Container(
@@ -37,8 +51,7 @@ class _PlantListTileState extends State<PlantListTile> {
             )
           : ListView.builder(
               scrollDirection: Axis.horizontal,
-              itemCount: plants
-                  .length, //! change it later with items.lenght from firebase
+              itemCount: plants.length,
               itemBuilder: (BuildContext context, int index) {
                 return Padding(
                   padding: EdgeInsets.only(right: 15.h),
@@ -56,11 +69,7 @@ class _PlantListTileState extends State<PlantListTile> {
                               bottom: 30.h,
                               width: 110.h,
                               child: Text(
-                                shortNameGetter(Provider.of<PlantsManagement>(
-                                        context,
-                                        listen: false)
-                                    .plants[index]
-                                    .name),
+                                shortNameGetter(plants[index].name),
                                 style: TextStyle(
                                     fontSize: 20.h,
                                     color: Colors.white,
@@ -96,11 +105,7 @@ class _PlantListTileState extends State<PlantListTile> {
                                       width: 150.h,
                                       child: FadeInImage.memoryNetwork(
                                         placeholder: kTransparentImage,
-                                        image: Provider.of<PlantsManagement>(
-                                                context,
-                                                listen: false)
-                                            .plants[index]
-                                            .urlImage,
+                                        image: plants[index].urlImage,
                                         fit: BoxFit.cover,
                                       ),
                                     ),
@@ -113,10 +118,7 @@ class _PlantListTileState extends State<PlantListTile> {
                               bottom: 10.h,
                               width: 110.h,
                               child: Text(
-                                Provider.of<PlantsManagement>(context,
-                                            listen: false)
-                                        .plants[index]
-                                        .storagePlace
+                                plants[index].storagePlace
                                     ? 'Domowa'
                                     : 'Ogrodowa',
                                 style: TextStyle(
@@ -133,10 +135,9 @@ class _PlantListTileState extends State<PlantListTile> {
                       Navigator.of(context).push(
                         MaterialPageRoute(
                           builder: (context) => PlantDataScreen(
-                              Provider.of<PlantsManagement>(context,
-                                      listen: false)
-                                  .plants[index]
-                                  .id),
+                            plantId: plants[index].id,
+                            isUserPlant: widget.mode == 'User' ? true : false,
+                          ),
                         ),
                       );
                     },

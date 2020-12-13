@@ -89,8 +89,10 @@ class _HomePageState extends State<HomePage> {
                           textAlign: TextAlign.start,
                         ),
                       ),
-                      PlantListTile(
-                        mode: 'User',
+                      Consumer<PlantsManagement>(
+                        builder: (_, __, ___) => PlantListTile(
+                          mode: 'User',
+                        ),
                       ), //TODO make sure its ok
                       SizedBox(
                         height: 40.h,

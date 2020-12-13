@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:roslinki_politechnika/providers/authProvider.dart';
 import 'package:roslinki_politechnika/providers/plantProvider.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:roslinki_politechnika/providers/plantsListProvider.dart';
+import 'package:roslinki_politechnika/screens/addPlantScreen.dart';
 import 'package:transparent_image/transparent_image.dart';
 
 class AddPlantItem extends StatelessWidget {
@@ -53,7 +57,39 @@ class AddPlantItem extends StatelessWidget {
         );
       },
       onDismissed: (direction) {
-        //!Provider
+        Provider.of<PlantsManagement>(context, listen: false)
+            .addPlantUser(
+                plant,
+                Provider.of<Auth>(context, listen: false).token,
+                Provider.of<Auth>(context, listen: false).userId)
+            .catchError(
+          (onError) {
+            return showDialog<Null>(
+              context: context,
+              barrierDismissible: false,
+              builder: (context) => AlertDialog(
+                title: Text(
+                  'An error occurred!',
+                  textAlign: TextAlign.center,
+                  style: TextStyle(fontSize: 35.h),
+                ),
+                content: Text(
+                  'Something went wrong, most likely no internet connection',
+                  textAlign: TextAlign.center,
+                ),
+                actions: <Widget>[
+                  FlatButton(
+                    onPressed: () {
+                      Navigator.of(context)
+                          .pushReplacementNamed(AddPlantScreen.routeName);
+                    },
+                    child: Text('Try again!'),
+                  ),
+                ],
+              ),
+            );
+          },
+        );
       },
       child: Card(
         color: Theme.of(context).accentColor,

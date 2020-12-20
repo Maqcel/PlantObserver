@@ -10,6 +10,7 @@ class UserPlant {
   final List<double> arrHydrophility;
   final List<double> arrPhotophility;
   final List<double> arrTemperature;
+  final double waterTank;
 
   UserPlant({
     @required this.currentFertility,
@@ -20,6 +21,7 @@ class UserPlant {
     @required this.arrHydrophility,
     @required this.arrPhotophility,
     @required this.arrTemperature,
+    @required this.waterTank,
     @required this.id,
   });
 }

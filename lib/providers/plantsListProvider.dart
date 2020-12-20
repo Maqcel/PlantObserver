@@ -50,7 +50,7 @@ class PlantsManagement with ChangeNotifier {
         temporary.add(
           Plant(
             id: plantId,
-            description: plant['descripion'],
+            description: plant['description'],
             storagePlace: plant['storagePlace'],
             hydrophilus: plant['hydrophilus'],
             photophilus: plant['photophilus'],
@@ -93,6 +93,7 @@ class PlantsManagement with ChangeNotifier {
             arrHydrophility: decodeArray(plant['arrHydrophility']),
             arrPhotophility: decodeArray(plant['arrPhotophility']),
             arrTemperature: decodeArray(plant['arrTemperature']),
+            waterTank: plant['waterTank'],
           ),
         );
       });
@@ -120,7 +121,7 @@ class PlantsManagement with ChangeNotifier {
             body: json.encode(
               {
                 'id': plant.id,
-                'currentFertility': 90.0,
+                'currentFertility': 50.0,
                 'currentHydrophility': 30.0,
                 'currentPhotophility': 40.0,
                 'currentTemperature': 20.0,
@@ -128,13 +129,14 @@ class PlantsManagement with ChangeNotifier {
                 'arrHydrophility': '30.0 30.0 30.0 30.0 30.0 30.0',
                 'arrPhotophility': '40.0 40.0 40.0 40.0 40.0 40.0',
                 'arrTemperature': '20.0 20.0 20.0 20.0 20.0 20.0',
+                'waterTank': 50.0,
               },
             ),
           )
           .timeout(Duration(seconds: 10));
       _userPlants.add(
         new UserPlant(
-          currentFertility: 90.0,
+          currentFertility: 50.0,
           currentHydrophility: 30.0,
           currentPhotophility: 40.0,
           currentTemperature: 20.0,
@@ -143,6 +145,7 @@ class PlantsManagement with ChangeNotifier {
           arrHydrophility: [30.0, 30.0, 30.0, 30.0, 30.0, 30.0],
           arrPhotophility: [40.0, 40.0, 40.0, 40.0, 40.0, 40.0],
           arrTemperature: [20.0, 20.0, 20.0, 20.0, 20.0, 20.0],
+          waterTank: 50.0,
         ),
       );
       notifyListeners();

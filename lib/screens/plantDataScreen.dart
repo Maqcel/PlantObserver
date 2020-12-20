@@ -49,16 +49,34 @@ class _PlantDataScreenState extends State<PlantDataScreen> {
 
   @override
   Widget build(BuildContext context) {
+    double swiatloText;
+    double waterTank;
+    double tempText;
+    if (widget.isUserPlant) {
+      swiatloText = Provider.of<PlantsManagement>(context, listen: false)
+          .userPlants
+          .firstWhere((element) => element.id == widget.plantId)
+          .currentPhotophility;
+      waterTank = Provider.of<PlantsManagement>(context, listen: false)
+          .userPlants
+          .firstWhere((element) => element.id == widget.plantId)
+          .waterTank;
+      tempText = Provider.of<PlantsManagement>(context, listen: false)
+          .userPlants
+          .firstWhere((element) => element.id == widget.plantId)
+          .currentTemperature;
+    }
+
     String shortName = shortNameGetter(
         Provider.of<PlantsManagement>(context, listen: false)
             .plants
             .firstWhere((element) => element.id == widget.plantId)
             .name);
     double fertilizerValue =
-        Provider.of<PotDecorationProvider>(context, listen: true)
+        Provider.of<PotDecorationProvider>(context, listen: false)
             .shouldPaintFertilizer;
     double humidityValue =
-        Provider.of<PotDecorationProvider>(context, listen: true)
+        Provider.of<PotDecorationProvider>(context, listen: false)
             .shouldPaintHumidity;
     return Scaffold(
       backgroundColor: Theme.of(context).accentColor,
@@ -125,10 +143,9 @@ class _PlantDataScreenState extends State<PlantDataScreen> {
                                   ),
                                 ),
                               ),
-                              _textSchemePercent(
-                                  10, true), //TODO change it later for value
-                              _textSchemePercent(78, true),
-                              _textSchemePercent(24, false),
+                              _textSchemePercent(waterTank, true),
+                              _textSchemePercent(swiatloText, true),
+                              _textSchemePercent(tempText, false),
                             ],
                           ),
                           SizedBox(
@@ -137,9 +154,41 @@ class _PlantDataScreenState extends State<PlantDataScreen> {
                           Row(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
-                              _textSchemeLabels(' Woda ', null),
-                              _textSchemeLabels('Światło', '✓'),
-                              _textSchemeLabels('Temp.', '✓'),
+                              _textSchemeLabels(
+                                  ' Woda ', waterTank > 30 ? '✓' : null),
+                              _textSchemeLabels(
+                                'Światło',
+                                Provider.of<PlantsManagement>(context,
+                                                listen: false)
+                                            .plants
+                                            .firstWhere((element) =>
+                                                element.id == widget.plantId)
+                                            .photophilus >
+                                        swiatloText
+                                    ? '✓'
+                                    : null,
+                              ),
+                              _textSchemeLabels(
+                                'Temp.',
+                                Provider.of<PlantsManagement>(context,
+                                                listen: false)
+                                            .plants
+                                            .firstWhere((element) =>
+                                                element.id == widget.plantId)
+                                            .prefferedTemperatureLeft >=
+                                        tempText
+                                    ? Provider.of<PlantsManagement>(context,
+                                                    listen: false)
+                                                .plants
+                                                .firstWhere((element) =>
+                                                    element.id ==
+                                                    widget.plantId)
+                                                .prefferedTemperatureRight <=
+                                            tempText
+                                        ? '✓'
+                                        : null
+                                    : null,
+                              ),
                             ],
                           ),
                           SizedBox(
@@ -230,7 +279,9 @@ class _PlantDataScreenState extends State<PlantDataScreen> {
                 onTap: () {
                   Navigator.of(context).push(
                     createRoute(
-                      InformationScreen(),
+                      InformationScreen(
+                        plantId: widget.plantId,
+                      ),
                     ),
                   );
                 },
@@ -239,17 +290,7 @@ class _PlantDataScreenState extends State<PlantDataScreen> {
             Positioned(
               left: 20.h,
               top: 50.h,
-              child: goBackArrow(
-                context,
-                Provider.of<PlantsManagement>(context, listen: false)
-                    .userPlants
-                    .firstWhere((element) => element.id == widget.plantId)
-                    .currentFertility,
-                Provider.of<PlantsManagement>(context, listen: false)
-                    .userPlants
-                    .firstWhere((element) => element.id == widget.plantId)
-                    .currentHydrophility,
-              ),
+              child: goBackArrow(context),
             ),
             !widget.isUserPlant
                 ? Positioned(
@@ -314,21 +355,28 @@ class _PlantDataScreenState extends State<PlantDataScreen> {
                 ? Positioned(
                     top: 140.h,
                     right: 20.h,
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          shortName,
-                          style: TextStyle(
-                              fontSize: shortName.length > 8 ? 30.h : 50.h,
-                              fontWeight: FontWeight.bold,
-                              color: Colors.white),
-                        ),
-                        _potData('Wilgotność', context, humidityValue,
-                            widget.plantId),
-                        _potData(
-                            'Nawóz', context, fertilizerValue, widget.plantId),
-                      ],
+                    child: Container(
+                      padding: EdgeInsets.all(10.h),
+                      decoration: BoxDecoration(
+                        color: Theme.of(context).accentColor,
+                        borderRadius: BorderRadius.circular(15.h),
+                      ),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            shortName,
+                            style: TextStyle(
+                                fontSize: shortName.length > 8 ? 30.h : 50.h,
+                                fontWeight: FontWeight.bold,
+                                color: Colors.white),
+                          ),
+                          _potData('Wilgotność', context, humidityValue,
+                              widget.plantId),
+                          _potData('Nawóz', context, fertilizerValue,
+                              widget.plantId),
+                        ],
+                      ),
                     ),
                   )
                 : Positioned(
@@ -395,14 +443,7 @@ Widget _potData(
         ),
         PotDecoration(
           choosenData: dataName,
-          fertilizer: Provider.of<PlantsManagement>(context, listen: false)
-              .userPlants
-              .firstWhere((element) => element.id == plantId)
-              .currentFertility,
-          humidity: Provider.of<PlantsManagement>(context, listen: false)
-              .userPlants
-              .firstWhere((element) => element.id == plantId)
-              .currentHydrophility,
+          plantId: plantId,
         ),
       ],
     ),
@@ -416,7 +457,7 @@ Widget _textSchemePercent(double value, bool percent) {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
-          '${value.toInt()}', //TODO change it later for value
+          '${value.toInt()}',
           style: TextStyle(fontSize: 40.h, fontWeight: FontWeight.bold),
         ),
         SizedBox(

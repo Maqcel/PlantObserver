@@ -75,7 +75,9 @@ class MyApp extends StatelessWidget {
             PlantDataScreen.routeName: (context) =>
                 PlantDataScreen(isUserPlant: null, plantId: null),
             StatisticScreen.routeName: (context) => StatisticScreen(),
-            InformationScreen.routeName: (context) => InformationScreen(),
+            InformationScreen.routeName: (context) => InformationScreen(
+                  plantId: null,
+                ),
             AuthScreen.routeName: (context) => AuthScreen(),
             AddPlantScreen.routeName: (context) => AddPlantScreen(),
           },

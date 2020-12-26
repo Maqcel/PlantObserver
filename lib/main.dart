@@ -4,6 +4,7 @@ import 'package:provider/provider.dart';
 import 'package:roslinki_politechnika/providers/authProvider.dart';
 import 'package:roslinki_politechnika/screens/addPlantScreen.dart';
 import 'package:roslinki_politechnika/screens/authScreen.dart';
+import 'package:roslinki_politechnika/screens/profileScreen.dart';
 import 'package:roslinki_politechnika/screens/tryAutoLoginLoading.dart';
 
 import 'providers/plantsListProvider.dart';
@@ -80,6 +81,7 @@ class MyApp extends StatelessWidget {
                 ),
             AuthScreen.routeName: (context) => AuthScreen(),
             AddPlantScreen.routeName: (context) => AddPlantScreen(),
+            ProfileScreen.routeName: (context) => ProfileScreen(),
           },
         ),
       ),

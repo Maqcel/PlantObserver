@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:roslinki_politechnika/screens/profileScreen.dart';
 
 import 'listTileBuilder.dart';
 
@@ -52,7 +53,7 @@ class CustomDrawer extends StatelessWidget {
                   ),
                   blurRadius: 10.0,
                   text: 'Profil',
-                  routeName: null,
+                  routeName: ProfileScreen.routeName,
                 ),
                 ListTileBuilder(
                   icon: Icon(

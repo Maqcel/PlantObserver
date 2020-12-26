@@ -13,6 +13,9 @@ class Auth with ChangeNotifier {
   DateTime _expiryDate;
   String _userId;
   Timer _authTimer;
+  String _name;
+  String _surname;
+  String _email;
 
   bool get isAuth {
     return token != null;
@@ -20,6 +23,18 @@ class Auth with ChangeNotifier {
 
   String get userId {
     return _userId;
+  }
+
+  String get name {
+    return _name;
+  }
+
+  String get surname {
+    return _surname;
+  }
+
+  String get email {
+    return _email;
   }
 
   String get token {
@@ -149,5 +164,32 @@ class Auth with ChangeNotifier {
     }
     final timeToExpire = _expiryDate.difference(DateTime.now()).inSeconds;
     _authTimer = Timer(Duration(seconds: timeToExpire), logout);
+  }
+
+  Future<void> gatherPersonal() async {
+    String userId = _userId;
+    final String url =
+        ApiKey.dataBaseUrl + 'users/$userId/personalData.json' + '?auth=$token';
+    var response;
+    try {
+      response = await http.get(url).timeout(Duration(seconds: 5));
+      final decodedData = json.decode(response.body) as Map<String, dynamic>;
+      if (decodedData == null) {
+        print('Response body is null getPlants');
+        throw NullThrownError;
+      }
+      decodedData.forEach(
+        (key, value) {
+          _name = value['name'];
+          _surname = value['surname'];
+          _email = value['email'];
+        },
+      );
+
+      notifyListeners();
+    } catch (error) {
+      print('Error when gathering personal data' + response.body);
+      throw error;
+    }
   }
 }

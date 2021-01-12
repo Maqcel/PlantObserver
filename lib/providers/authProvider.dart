@@ -16,6 +16,7 @@ class Auth with ChangeNotifier {
   String _name;
   String _surname;
   String _email;
+  String _personalId; //? Required for changing the existing name
 
   bool get isAuth {
     return token != null;
@@ -35,6 +36,10 @@ class Auth with ChangeNotifier {
 
   String get email {
     return _email;
+  }
+
+  String get personalId {
+    return _personalId;
   }
 
   String get token {
@@ -175,11 +180,12 @@ class Auth with ChangeNotifier {
       response = await http.get(url).timeout(Duration(seconds: 5));
       final decodedData = json.decode(response.body) as Map<String, dynamic>;
       if (decodedData == null) {
-        print('Response body is null getPlants');
+        print('Response body is null getPersonal');
         throw NullThrownError;
       }
       decodedData.forEach(
         (key, value) {
+          _personalId = key;
           _name = value['name'];
           _surname = value['surname'];
           _email = value['email'];
@@ -187,6 +193,31 @@ class Auth with ChangeNotifier {
       );
 
       notifyListeners();
+    } catch (error) {
+      print('Error when gathering personal data' + response.body);
+      throw error;
+    }
+  }
+
+  Future<void> updatePersonal(String name, String surname) async {
+    final String url = ApiKey.dataBaseUrl +
+        'users/$userId/personalData/$personalId.json' +
+        '?auth=$token';
+    var response;
+    try {
+      response = await http
+          .patch(
+            url,
+            body: json.encode(
+              {
+                'name': name,
+                'surname': surname,
+              },
+            ),
+          )
+          .timeout(Duration(seconds: 10));
+      _name = name;
+      _surname = surname;
     } catch (error) {
       print('Error when gathering personal data' + response.body);
       throw error;

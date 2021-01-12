@@ -65,8 +65,7 @@ class PlantsManagement with ChangeNotifier {
       _plants = temporary;
 
       final responseUserPlants = await http
-          .get(
-              ApiKey.dataBaseUrl + 'users/$userId/plants.json' + '?auth=$token')
+          .get(ApiKey.dataBaseUrl + 'users/$userId/plants.json?auth=$token')
           .timeout(Duration(seconds: 5));
 
       final decodedDataUser =

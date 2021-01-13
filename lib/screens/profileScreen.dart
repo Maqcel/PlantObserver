@@ -4,7 +4,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
 import 'package:roslinki_politechnika/animations/routeAnimation.dart';
 import 'package:roslinki_politechnika/providers/authProvider.dart';
-import 'package:roslinki_politechnika/screens/addPlantScreen.dart';
+import 'package:roslinki_politechnika/screens/managePlantScreen.dart';
 
 class ProfileScreen extends StatefulWidget {
   static const String routeName = '/profileScreen';
@@ -372,8 +372,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   bottom: MediaQuery.of(context).size.height / 10,
                   child: Column(
                     children: [
-                      button(context, 'Dodaj roślinę', false, AddPlantScreen()),
-                      button(context, 'Usuń roślinę', false, null),
+                      button(context, 'Dodaj roślinę', false,
+                          ManagePlantScreen(mode: true)),
+                      button(context, 'Usuń roślinę', false,
+                          ManagePlantScreen(mode: false)),
                       button(context, 'Usuń konto', true, null),
                     ],
                   ),

@@ -88,6 +88,7 @@ class PlantsManagement with ChangeNotifier {
             currentPhotophility: plant['currentPhotophility'],
             currentTemperature: plant['currentTemperature'],
             id: plant['id'],
+            databaseIndex: plantId,
             arrFertility: decodeArray(plant['arrFertility']),
             arrHydrophility: decodeArray(plant['arrHydrophility']),
             arrPhotophility: decodeArray(plant['arrPhotophility']),
@@ -113,8 +114,9 @@ class PlantsManagement with ChangeNotifier {
   Future<void> addPlantUser(Plant plant, String token, String userId) async {
     final String url =
         ApiKey.dataBaseUrl + 'users/$userId/plants.json' + '?auth=$token';
+
     try {
-      await http
+      final response = await http
           .post(
             url,
             body: json.encode(
@@ -133,6 +135,11 @@ class PlantsManagement with ChangeNotifier {
             ),
           )
           .timeout(Duration(seconds: 10));
+      final decodeKey = jsonDecode(response.body) as Map<String, dynamic>;
+      String databaseIndex;
+      decodeKey.forEach((key, value) {
+        databaseIndex = key;
+      });
       _userPlants.add(
         new UserPlant(
           currentFertility: 50.0,
@@ -140,6 +147,7 @@ class PlantsManagement with ChangeNotifier {
           currentPhotophility: 40.0,
           currentTemperature: 20.0,
           id: plant.id,
+          databaseIndex: databaseIndex,
           arrFertility: [50.0, 50.0, 50.0, 50.0, 50.0, 50.0],
           arrHydrophility: [30.0, 30.0, 30.0, 30.0, 30.0, 30.0],
           arrPhotophility: [40.0, 40.0, 40.0, 40.0, 40.0, 40.0],
@@ -158,5 +166,28 @@ class PlantsManagement with ChangeNotifier {
       print('General Error: $e');
       throw e;
     }
+  }
+
+  Future<void> removePlantUser(
+      String token, String userId, String databaseIndex) async {
+    final String url = ApiKey.dataBaseUrl +
+        'users/$userId/plants/$databaseIndex.json' +
+        '?auth=$token';
+    try {
+      await http.delete(url);
+    } on TimeoutException catch (e) {
+      print('Timeout Error: $e');
+      throw e;
+    } on SocketException catch (e) {
+      print('Socket Error: $e');
+      throw e;
+    } on Error catch (e) {
+      print('General Error: $e');
+      throw e;
+    }
+    final plantAt = _userPlants
+        .indexWhere((element) => element.databaseIndex == databaseIndex);
+    _userPlants.removeAt(plantAt);
+    notifyListeners();
   }
 }

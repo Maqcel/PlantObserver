@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:roslinki_politechnika/screens/addPlantScreen.dart';
+import 'package:roslinki_politechnika/screens/managePlantScreen.dart';
 
 class AddPlantButton extends StatefulWidget {
   final double pot;
@@ -20,7 +20,7 @@ class _AddPlantButtonState extends State<AddPlantButton> {
   Widget build(BuildContext context) {
     return FlatButton(
       onPressed: () {
-        Navigator.of(context).pushNamed(AddPlantScreen.routeName);
+        Navigator.of(context).pushNamed(ManagePlantScreen.routeName);
       },
       child: Stack(
         alignment: AlignmentDirectional.center,

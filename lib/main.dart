@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
 import 'package:roslinki_politechnika/providers/authProvider.dart';
-import 'package:roslinki_politechnika/screens/addPlantScreen.dart';
+import 'package:roslinki_politechnika/screens/managePlantScreen.dart';
 import 'package:roslinki_politechnika/screens/authScreen.dart';
 import 'package:roslinki_politechnika/screens/profileScreen.dart';
 import 'package:roslinki_politechnika/screens/tryAutoLoginLoading.dart';
@@ -80,7 +80,8 @@ class MyApp extends StatelessWidget {
                   plantId: null,
                 ),
             AuthScreen.routeName: (context) => AuthScreen(),
-            AddPlantScreen.routeName: (context) => AddPlantScreen(),
+            ManagePlantScreen.routeName: (context) =>
+                ManagePlantScreen(mode: true),
             ProfileScreen.routeName: (context) => ProfileScreen(),
           },
         ),

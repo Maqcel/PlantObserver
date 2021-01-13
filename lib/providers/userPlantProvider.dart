@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 class UserPlant {
   final String id;
+  final String databaseIndex;
   final double currentFertility;
   final double currentHydrophility;
   final double currentPhotophility;
@@ -23,5 +24,6 @@ class UserPlant {
     @required this.arrTemperature,
     @required this.waterTank,
     @required this.id,
+    @required this.databaseIndex,
   });
 }

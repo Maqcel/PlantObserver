@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
 import 'package:roslinki_politechnika/models/addPlantButton.dart';
+import 'package:roslinki_politechnika/providers/authProvider.dart';
 import 'package:roslinki_politechnika/providers/plantProvider.dart';
+import 'package:roslinki_politechnika/providers/potDecorationProvider.dart';
 import 'package:roslinki_politechnika/screens/plantDataScreen.dart';
 import 'package:transparent_image/transparent_image.dart';
 
@@ -132,13 +134,25 @@ class _PlantListTileState extends State<PlantListTile> {
                       ),
                     ),
                     onTap: () {
-                      Navigator.of(context).push(
+                      Navigator.of(context)
+                          .push(
                         MaterialPageRoute(
                           builder: (context) => PlantDataScreen(
                             plantId: plants[index].id,
                             isUserPlant: widget.mode == 'User' ? true : false,
                           ),
                         ),
+                      )
+                          .then(
+                        (value) {
+                          Provider.of<PlantsManagement>(context, listen: false)
+                              .getUserPlants(
+                                  Provider.of<Auth>(context, listen: false)
+                                      .userId);
+                          Provider.of<PotDecorationProvider>(context,
+                                  listen: false)
+                              .notifyListeners();
+                        },
                       );
                     },
                   ),

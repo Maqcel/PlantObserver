@@ -64,6 +64,22 @@ class PlantsManagement with ChangeNotifier {
       });
       _plants = temporary;
 
+      await getUserPlants(userId);
+      notifyListeners();
+    } on TimeoutException catch (e) {
+      print('Timeout Error: $e');
+      throw e;
+    } on SocketException catch (e) {
+      print('Socket Error: $e');
+      throw e;
+    } on Error catch (e) {
+      print('General Error: $e');
+      throw e;
+    }
+  }
+
+  Future<void> getUserPlants(String userId) async {
+    try {
       final responseUserPlants = await http
           .get(ApiKey.dataBaseUrl + 'users/$userId/plants.json?auth=$token')
           .timeout(Duration(seconds: 5));
@@ -126,10 +142,14 @@ class PlantsManagement with ChangeNotifier {
                 'currentHydrophility': 30.0,
                 'currentPhotophility': 40.0,
                 'currentTemperature': 20.0,
-                'arrFertility': '50.0 50.0 50.0 50.0 50.0 50.0',
-                'arrHydrophility': '30.0 30.0 30.0 30.0 30.0 30.0',
-                'arrPhotophility': '40.0 40.0 40.0 40.0 40.0 40.0',
-                'arrTemperature': '20.0 20.0 20.0 20.0 20.0 20.0',
+                'arrFertility':
+                    '50.0 50.0 50.0 50.0 50.0 50.0 50.0 50.0 50.0 50.0 50.0 50.0 50.0 50.0 50.0 50.0 50.0 50.0 50.0 50.0 50.0 50.0 50.0 50.0 50.0',
+                'arrHydrophility':
+                    '30.0 30.0 30.0 30.0 30.0 30.0 30.0 30.0 30.0 30.0 30.0 30.0 30.0 30.0 30.0 30.0 30.0 30.0 30.0 30.0 30.0 30.0 30.0 30.0 30.0',
+                'arrPhotophility':
+                    '40.0 40.0 40.0 40.0 40.0 40.0 40.0 40.0 40.0 40.0 40.0 40.0 40.0 40.0 40.0 40.0 40.0 40.0 40.0 40.0 40.0 40.0 40.0 40.0 40.0',
+                'arrTemperature':
+                    '20.0 20.0 20.0 20.0 20.0 20.0 20.0 20.0 20.0 20.0 20.0 20.0 20.0 20.0 20.0 20.0 20.0 20.0 20.0 20.0 20.0 20.0 20.0 20.0 20.0',
                 'waterTank': 50.0,
               },
             ),
@@ -148,10 +168,114 @@ class PlantsManagement with ChangeNotifier {
           currentTemperature: 20.0,
           id: plant.id,
           databaseIndex: databaseIndex,
-          arrFertility: [50.0, 50.0, 50.0, 50.0, 50.0, 50.0],
-          arrHydrophility: [30.0, 30.0, 30.0, 30.0, 30.0, 30.0],
-          arrPhotophility: [40.0, 40.0, 40.0, 40.0, 40.0, 40.0],
-          arrTemperature: [20.0, 20.0, 20.0, 20.0, 20.0, 20.0],
+          arrFertility: [
+            50.0,
+            50.0,
+            50.0,
+            50.0,
+            50.0,
+            50.0,
+            50.0,
+            50.0,
+            50.0,
+            50.0,
+            50.0,
+            50.0,
+            50.0,
+            50.0,
+            50.0,
+            50.0,
+            50.0,
+            50.0,
+            50.0,
+            50.0,
+            50.0,
+            50.0,
+            50.0,
+            50.0,
+            50.0
+          ],
+          arrHydrophility: [
+            30.0,
+            30.0,
+            30.0,
+            30.0,
+            30.0,
+            30.0,
+            30.0,
+            30.0,
+            30.0,
+            30.0,
+            30.0,
+            30.0,
+            30.0,
+            30.0,
+            30.0,
+            30.0,
+            30.0,
+            30.0,
+            30.0,
+            30.0,
+            30.0,
+            30.0,
+            30.0,
+            30.0,
+            30.0
+          ],
+          arrPhotophility: [
+            40.0,
+            40.0,
+            40.0,
+            40.0,
+            40.0,
+            40.0,
+            40.0,
+            40.0,
+            40.0,
+            40.0,
+            40.0,
+            40.0,
+            40.0,
+            40.0,
+            40.0,
+            40.0,
+            40.0,
+            40.0,
+            40.0,
+            40.0,
+            40.0,
+            40.0,
+            40.0,
+            40.0,
+            40.0
+          ],
+          arrTemperature: [
+            20.0,
+            20.0,
+            20.0,
+            20.0,
+            20.0,
+            20.0,
+            20.0,
+            20.0,
+            20.0,
+            20.0,
+            20.0,
+            20.0,
+            20.0,
+            20.0,
+            20.0,
+            20.0,
+            20.0,
+            20.0,
+            20.0,
+            20.0,
+            20.0,
+            20.0,
+            20.0,
+            20.0,
+            20.0
+          ],
           waterTank: 50.0,
         ),
       );

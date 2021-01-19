@@ -232,7 +232,10 @@ class _PlantDataScreenState extends State<PlantDataScreen> {
                 onTap: () {
                   Navigator.of(context).push(
                     createRoute(
-                      StatisticScreen(),
+                      StatisticScreen(
+                        isUserPlant: widget.isUserPlant,
+                        plantId: widget.plantId,
+                      ),
                     ),
                   );
                 },
@@ -411,7 +414,7 @@ Widget _potData(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  '${values.toInt()}', //TODO change it later for value
+                  '${values.toDouble().toStringAsFixed(0)}',
                   style: TextStyle(
                       fontSize: 35.h,
                       fontWeight: FontWeight.bold,

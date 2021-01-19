@@ -61,7 +61,6 @@ class MyApp extends StatelessWidget {
             ),
             visualDensity: VisualDensity.adaptivePlatformDensity,
           ),
-          //initialRoute: AddPlantScreen.routeName, //! speed up testing
           home: auth.isAuth
               ? HomePage()
               : FutureBuilder(
@@ -75,7 +74,8 @@ class MyApp extends StatelessWidget {
             HomePage.routeName: (context) => HomePage(),
             PlantDataScreen.routeName: (context) =>
                 PlantDataScreen(isUserPlant: null, plantId: null),
-            StatisticScreen.routeName: (context) => StatisticScreen(),
+            StatisticScreen.routeName: (context) =>
+                StatisticScreen(isUserPlant: null, plantId: null),
             InformationScreen.routeName: (context) => InformationScreen(
                   plantId: null,
                 ),

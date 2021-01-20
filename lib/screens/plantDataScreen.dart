@@ -129,8 +129,7 @@ class _PlantDataScreenState extends State<PlantDataScreen> {
                                         ),
                                       ),
                                       FractionallySizedBox(
-                                        heightFactor:
-                                            0.4, //TODO make it gether the information about water left in tank
+                                        heightFactor: 0.4,
                                         child: Container(
                                           decoration: BoxDecoration(
                                             color: Colors.redAccent,
@@ -460,7 +459,7 @@ Widget _textSchemePercent(double value, bool percent) {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
-          '${value.toInt()}',
+          '${value.toDouble().toStringAsFixed(0)}',
           style: TextStyle(fontSize: 40.h, fontWeight: FontWeight.bold),
         ),
         SizedBox(

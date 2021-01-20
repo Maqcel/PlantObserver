@@ -84,7 +84,6 @@ class _PlantListTileState extends State<PlantListTile> {
                               child: Icon(
                                 Icons.check_circle_rounded,
                                 // Icons.report_problem_rounded,
-                                //TODO after implementation of the algorithm make sure to make it respond for changes in plant needs
                                 color: Colors.white,
                               ),
                             ),

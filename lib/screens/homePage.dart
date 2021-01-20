@@ -93,7 +93,7 @@ class _HomePageState extends State<HomePage> {
                         builder: (_, __, ___) => PlantListTile(
                           mode: 'User',
                         ),
-                      ), //TODO make sure its ok
+                      ),
                       SizedBox(
                         height: 40.h,
                       ),
@@ -125,7 +125,7 @@ class _HomePageState extends State<HomePage> {
                       ),
                       PlantListTile(
                         mode: 'All',
-                      ), //TODO make sure its ok
+                      ),
                       SizedBox(
                         height: 35.h,
                       ),
@@ -147,7 +147,7 @@ class _HomePageState extends State<HomePage> {
                     alignment: Alignment.bottomLeft,
                     width: 180.h,
                     child: Text(
-                      'Dostosuj nawodnienie roślin', //TODO this should change to 'Nie trzeba podejmować akcji' if all plants has water and fertilizer
+                      'Dostosuj nawodnienie roślin',
                       style: TextStyle(
                         fontWeight: FontWeight.w600,
                         fontSize: 20.h,

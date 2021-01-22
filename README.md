@@ -22,7 +22,7 @@ Aplikacja mobilna prezentująca informacje o roślinie takie jak nawodnienie, te
 Przechowywanie pobranych danych na kontach użytkowników przy użyciu Firebase Realtime Database.<br />
 Podział prac:<br />
 Marcel Kozień - aplikacja, wygląd, architektura<br />
-Konrad Pasierbek oraz Maciej Bem - ekran profilu, sensor, raport 
+Konrad Pasierbek oraz Maciej Bem - ekran profilu, sensor, raport, baza danych roślin
 
 #### Technologie
 

@@ -19,9 +19,9 @@ Odnośniki do poszczególnych sekcji.
 ## Opis
 
 Aplikacja mobilna prezentująca informacje o roślinie takie jak nawodnienie, temperatura, nawiezienie pobrane z symulowanego sensora. 
-Przechowywanie pobranych danych na kontach użytkowników przy użyciu Firebase Realtime Database.
-Podział prac:
-Marcel Kozień - aplikacja, wygląd, architektura
+Przechowywanie pobranych danych na kontach użytkowników przy użyciu Firebase Realtime Database.<br />
+Podział prac:<br />
+Marcel Kozień - aplikacja, wygląd, architektura<br />
 Konrad Pasierbek oraz Maciej Bem - ekran profilu, sensor, raport 
 
 #### Technologie

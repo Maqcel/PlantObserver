@@ -223,4 +223,34 @@ class Auth with ChangeNotifier {
       throw error;
     }
   }
+
+  Future<void> deleteAccount() async {
+    final String url =
+        'https://identitytoolkit.googleapis.com/v1/accounts:delete?key=${ApiKey.key}';
+    final String dataUrl =
+        ApiKey.dataBaseUrl + 'users/$userId.json' + '?auth=$token';
+    var response;
+    var tokenCopy = token;
+    try {
+      response = await http.delete(dataUrl).timeout(Duration(seconds: 5));
+    } catch (error) {
+      print('Error when deleting account data' + response.body);
+      throw error;
+    }
+    try {
+      response = await http
+          .post(
+            url,
+            body: json.encode(
+              {
+                'idToken': tokenCopy,
+              },
+            ),
+          )
+          .timeout(Duration(seconds: 10));
+    } catch (error) {
+      print('Error when deleting account' + response.body);
+      throw error;
+    }
+  }
 }

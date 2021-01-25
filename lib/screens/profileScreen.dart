@@ -435,10 +435,35 @@ Widget button(BuildContext context, String text, bool delete, Widget screen) {
           elevation: 7.0.h,
           child: GestureDetector(
             onTap: () {
-              if (screen != null)
+              if (screen != null) {
                 Navigator.of(context).pushReplacement(
                   createRoute(screen),
                 );
+              } else {
+                showDialog(
+                  context: context,
+                  builder: (context) => AlertDialog(
+                    title: Text('Potwierdź'),
+                    content: Text('Czy chcesz usunąć konto?'),
+                    actions: <Widget>[
+                      FlatButton(
+                          onPressed: () {
+                            Provider.of<Auth>(context, listen: false)
+                                .deleteAccount();
+                            Navigator.of(context).pop();
+                            Navigator.of(context).pushReplacementNamed('/');
+                            Provider.of<Auth>(context, listen: false).logout();
+                          },
+                          child: Text("Tak")),
+                      FlatButton(
+                          onPressed: () {
+                            Navigator.of(context).pop();
+                          },
+                          child: Text("Nie")),
+                    ],
+                  ),
+                );
+              }
             },
             child: Center(
               child: Text(
